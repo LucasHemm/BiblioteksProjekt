@@ -2,7 +2,7 @@ package Niveau3_persitens;
 
 import java.sql.*;
 
-public class Database implements IDatabase
+public class Database
 {
     //Fields to connect to database
     private final String JdbcUrl = "jdbc:mysql://localhost/iceprojekt?" + "autoReconnect=true&useSSL=false";
