@@ -28,6 +28,151 @@ public class Database {
             e.printStackTrace();
         }
     }
+
+    public void createBook(Book book)
+    {
+        try {
+            connection = DriverManager.getConnection(JdbcUrl, username, password);
+
+            //Saves the users information
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO bibliotek.bogtabel (forfatter, titel, udgivelsesår)" +
+                    " VALUES(?,?,?)");
+            statement.setString(1,book.getAuthor());
+            statement.setString(2,book.getTitle());
+            statement.setInt(3,book.getReleaseYear());
+
+            int result = statement.executeUpdate();
+        } catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void showAllLoans(){
+
+
+        try {
+            connection = DriverManager.getConnection(JdbcUrl, username, password);
+
+
+            PreparedStatement statement = connection.prepareStatement("select * from bibliotek.listOfLoans");
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while(resultSet.next()){
+                System.out.println( "udlånsID: " + resultSet.getString("udlånsid") + " - Navn på låner: " + resultSet.getString("navn") +
+                        " - Titel på udlånt bog: "  + resultSet.getString("titel"));
+
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createLoan(String name, String titel){
+        try {
+            connection = DriverManager.getConnection(JdbcUrl, username, password);
+
+            //Saves the users information
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO bibliotek.udlånstabel (bogid, lånerid)" +
+                    " VALUES(?,?)");
+            statement.setInt(1,getIndexFromTitel(titel));
+            statement.setInt(2, getIndexFromName(name));
+
+            int result = statement.executeUpdate();
+        } catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void printBorrowers(){
+
+        PreparedStatement statement = null;
+        try {
+            connection = DriverManager.getConnection(JdbcUrl, username, password);
+            statement = connection.prepareStatement("select * from bibliotek.lånertabel");
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while(resultSet.next()){
+                System.out.println(resultSet.getString("navn") + "\n");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void printBooks(){
+
+
+        PreparedStatement statement = null;
+        try {
+            connection = DriverManager.getConnection(JdbcUrl, username, password);
+            statement = connection.prepareStatement("select * from bibliotek.bogtabel");
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while(resultSet.next()){
+                System.out.println(resultSet.getString("titel")+ "\n");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+    private int getIndexFromName(String name)
+    {
+        int ID = 0;
+        PreparedStatement statement;
+        try {
+            connection = DriverManager.getConnection(JdbcUrl, username, password);
+            {
+                statement = connection.prepareStatement("SELECT * FROM bibliotek.lånertabel where navn = ?");
+            }
+
+            statement.setString(1,name);
+            ResultSet result = statement.executeQuery();
+
+            while (result.next())
+            {
+                ID = result.getInt("lånerid");
+            }
+
+        } catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return ID;
+    }
+
+    private int getIndexFromTitel(String titel)
+    {
+        int ID = 0;
+        PreparedStatement statement;
+        try {
+            connection = DriverManager.getConnection(JdbcUrl, username, password);
+            {
+                statement = connection.prepareStatement("SELECT * FROM bibliotek.bogtabel where titel = ?");
+            }
+
+            statement.setString(1,titel);
+            ResultSet result = statement.executeQuery();
+
+            while (result.next())
+            {
+                ID = result.getInt("bogid");
+            }
+
+        } catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return ID;
+    }
 //
 //    @Override
 //    public Person login(String email, String password1)

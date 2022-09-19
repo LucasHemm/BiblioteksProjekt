@@ -1,4 +1,5 @@
 import Niveau2_logik.TextUI;
+import Niveau3_persistens.Book;
 import Niveau3_persistens.Borrower;
 import Niveau3_persistens.Database;
 
@@ -17,7 +18,6 @@ public class Menu {
             String[] options = {"Create Borrower", "Create Book", "Create Loan", "Search", "Delete", "Show all loans", "Quit"};
             int choice = textUi.select("header", options, "footer");
             switch (choice) {
-
                 case 0:
                     System.out.println("Please enter your adress");
                     String adress = textUi.get();
@@ -28,16 +28,35 @@ public class Menu {
                     database.createBorrower(new Borrower(adress,name,postalCode));
                     break;
                 case 1:
+                    System.out.println("Please enter Author");
+                    String author = textUi.get();
+                    System.out.println("Please enter Title");
+                    String title = textUi.get();
+                    System.out.println("Please enter Release year");
+                    int releaseYear = textUi.getInteger();
+                    database.createBook(new Book(author,title,releaseYear));
                     break;
                 case 2:
+                    database.printBorrowers();
+                    System.out.println("Please enter name of borrower");
+                    String borrowerName = textUi.get();
+                    database.printBooks();
+                    System.out.println("Please enter title of the book");
+                    String bookTitle = textUi.get();
+                    database.createLoan(borrowerName,bookTitle);
                     break;
                 case 3:
+//                    search
                     break;
                 case 4:
+//                    delete
                     break;
                 case 5:
+                    database.showAllLoans();
                     break;
                 case 6:
+                    onOff = false;
+                    System.out.println("goodbye, and thanks for using my ");
                     break;
 
 
