@@ -1,3 +1,5 @@
+package Niveau3_persitens;
+
 import java.sql.*;
 
 public class Database implements IDatabase

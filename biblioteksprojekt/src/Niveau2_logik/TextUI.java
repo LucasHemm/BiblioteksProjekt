@@ -1,3 +1,5 @@
+package Niveau2_logik;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
