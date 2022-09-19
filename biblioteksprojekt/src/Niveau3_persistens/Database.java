@@ -25,7 +25,8 @@ public class Database {
             int result = statement.executeUpdate();
         } catch(SQLException e)
         {
-            e.printStackTrace();
+            System.out.println("Name has been spelled incorrectly");
+//            e.printStackTrace();
         }
     }
 
@@ -44,16 +45,14 @@ public class Database {
             int result = statement.executeUpdate();
         } catch(SQLException e)
         {
-            e.printStackTrace();
+            System.out.println("Title has been spelled incorrectly");
+//            e.printStackTrace();
         }
     }
 
     public void showAllLoans(){
-
-
         try {
             connection = DriverManager.getConnection(JdbcUrl, username, password);
-
 
             PreparedStatement statement = connection.prepareStatement("select * from bibliotek.listOfLoans");
 
@@ -66,6 +65,26 @@ public class Database {
             }
 
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void currentLoans(String name){
+        try {
+            connection = DriverManager.getConnection(JdbcUrl, username, password);
+
+            PreparedStatement statement = connection.prepareStatement("select * from bibliotek.listOfLoans where navn = ?");
+
+            statement.setString(1,name);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while(resultSet.next()){
+                System.out.println( "udlånsID: " + resultSet.getString("udlånsid") + " - Navn på låner: "
+                        + resultSet.getString("navn") + " - Titel på udlånt bog: "  +
+                        resultSet.getString("titel"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -84,6 +103,26 @@ public class Database {
             int result = statement.executeUpdate();
         } catch(SQLException e)
         {
+            System.out.println("Either name or title has been spelled incorrectly");
+            //e.printStackTrace();
+        }
+    }
+    public void amountBorrowedByArea(int postalCode) {
+        try {
+            connection = DriverManager.getConnection(JdbcUrl, username, password);
+
+            PreparedStatement statement = connection.prepareStatement("select titel, count(*) as total from bibliotek.bookbyarea where postnummer = ? group by titel");
+
+            statement.setInt(1,postalCode);
+
+            ResultSet resultSet = statement.executeQuery();
+
+
+            while(resultSet.next()){
+                System.out.println("Book title: " + resultSet.getString("titel") +
+                        " - times borrowed: " + resultSet.getInt("total"));
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -173,6 +212,8 @@ public class Database {
         }
         return ID;
     }
+
+
 //
 //    @Override
 //    public Person login(String email, String password1)

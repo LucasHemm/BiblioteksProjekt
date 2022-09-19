@@ -15,8 +15,8 @@ public class Menu {
 
         while (onOff) {
 
-            String[] options = {"Create Borrower", "Create Book", "Create Loan", "Search", "Delete", "Show all loans", "Quit"};
-            int choice = textUi.select("header", options, "footer");
+            String[] options = {"Create Borrower", "Create Book", "Create Loan", "Search", "Amount borrowed by area", "Show all loans", "Quit"};
+            int choice = textUi.select("", options, "");
             switch (choice) {
                 case 0:
                     System.out.println("Please enter your adress");
@@ -46,10 +46,12 @@ public class Menu {
                     database.createLoan(borrowerName,bookTitle);
                     break;
                 case 3:
-//                    search
+                    System.out.println("Enter name of borrower");
+                        database.currentLoans(textUi.get());
                     break;
                 case 4:
-//                    delete
+                    System.out.println("Enter postalcode");
+                    database.amountBorrowedByArea(textUi.getInteger());
                     break;
                 case 5:
                     database.showAllLoans();
