@@ -6,7 +6,7 @@ public class Database {
     //Fields to connect to database
     private final String JdbcUrl = "jdbc:mysql://localhost:3306/bibliotek?serverTimezone=CET&useSSL=false";
     private final String username = "root";
-    private final String password = ""; //Remember to change password**********************
+    private final String password = "Lucas464!"; //Remember to change password**********************
     private Connection connection = null;
 
 
@@ -54,7 +54,7 @@ public class Database {
         try {
             connection = DriverManager.getConnection(JdbcUrl, username, password);
 
-            PreparedStatement statement = connection.prepareStatement("select * from bibliotek.listOfLoans");
+            PreparedStatement statement = connection.prepareStatement("select * from bibliotek.listOfLoans order by udlånsid");
 
             ResultSet resultSet = statement.executeQuery();
 
@@ -74,6 +74,7 @@ public class Database {
         try {
             connection = DriverManager.getConnection(JdbcUrl, username, password);
 
+            printBorrowers();
             PreparedStatement statement = connection.prepareStatement("select * from bibliotek.listOfLoans where navn = ?");
 
             statement.setString(1,name);
