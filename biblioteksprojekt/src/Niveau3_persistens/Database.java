@@ -3,17 +3,11 @@ package Niveau3_persistens;
 import java.sql.*;
 
 public class Database {
-    //Fields to connect to database
-    private final String JdbcUrl = "jdbc:mysql://localhost:3306/bibliotek?serverTimezone=CET&useSSL=false";
-    private final String username = "root";
-    private final String password = "Lucas464!"; //Remember to change password**********************
-    private Connection connection = null;
-
 
     public void createBorrower(Borrower borrower)
     {
         try {
-            connection = DriverManager.getConnection(JdbcUrl, username, password);
+           Connection connection = ConnectionConfiguration.getConnection();
 
             //Saves the users information
             PreparedStatement statement = connection.prepareStatement("INSERT INTO bibliotek.lånertabel (adresse, navn, postnummer)" +
@@ -33,7 +27,7 @@ public class Database {
     public void createBook(Book book)
     {
         try {
-            connection = DriverManager.getConnection(JdbcUrl, username, password);
+            Connection connection = ConnectionConfiguration.getConnection();
 
             //Saves the users information
             PreparedStatement statement = connection.prepareStatement("INSERT INTO bibliotek.bogtabel (forfatter, titel, udgivelsesår)" +
@@ -52,7 +46,7 @@ public class Database {
 
     public void showAllLoans(){
         try {
-            connection = DriverManager.getConnection(JdbcUrl, username, password);
+            Connection connection = ConnectionConfiguration.getConnection();
 
             PreparedStatement statement = connection.prepareStatement("select * from bibliotek.listOfLoans order by udlånsid");
 
@@ -72,7 +66,7 @@ public class Database {
 
     public void currentLoans(String name, String language){
         try {
-            connection = DriverManager.getConnection(JdbcUrl, username, password);
+            Connection connection = ConnectionConfiguration.getConnection();
 
             printBorrowers();
             PreparedStatement statement = connection.prepareStatement("select * from bibliotek.listOfLoans where navn = ?");
@@ -107,7 +101,7 @@ public class Database {
 
     public void createLoan(String name, String titel){
         try {
-            connection = DriverManager.getConnection(JdbcUrl, username, password);
+            Connection connection = ConnectionConfiguration.getConnection();
 
             //Saves the users information
             PreparedStatement statement = connection.prepareStatement("INSERT INTO bibliotek.udlånstabel (bogid, lånerid)" +
@@ -124,7 +118,7 @@ public class Database {
     }
     public void amountBorrowedByArea(int postalCode, String language) {
         try {
-            connection = DriverManager.getConnection(JdbcUrl, username, password);
+            Connection connection = ConnectionConfiguration.getConnection();
 
             PreparedStatement statement = connection.prepareStatement("select titel, count(*) as total from bibliotek.bookbyarea where postnummer = ? group by titel");
 
@@ -160,7 +154,7 @@ public class Database {
 
         PreparedStatement statement = null;
         try {
-            connection = DriverManager.getConnection(JdbcUrl, username, password);
+            Connection connection = ConnectionConfiguration.getConnection();
             statement = connection.prepareStatement("select * from bibliotek.lånertabel");
 
             ResultSet resultSet = statement.executeQuery();
@@ -179,7 +173,7 @@ public class Database {
 
         PreparedStatement statement = null;
         try {
-            connection = DriverManager.getConnection(JdbcUrl, username, password);
+            Connection connection = ConnectionConfiguration.getConnection();
             statement = connection.prepareStatement("select * from bibliotek.bogtabel");
 
             ResultSet resultSet = statement.executeQuery();
@@ -197,7 +191,7 @@ public class Database {
         int ID = 0;
         PreparedStatement statement;
         try {
-            connection = DriverManager.getConnection(JdbcUrl, username, password);
+            Connection connection = ConnectionConfiguration.getConnection();
             {
                 statement = connection.prepareStatement("SELECT * FROM bibliotek.lånertabel where navn = ?");
             }
@@ -223,7 +217,7 @@ public class Database {
         int ID = 0;
         PreparedStatement statement;
         try {
-            connection = DriverManager.getConnection(JdbcUrl, username, password);
+            Connection connection = ConnectionConfiguration.getConnection();
             {
                 statement = connection.prepareStatement("SELECT * FROM bibliotek.bogtabel where titel = ?");
             }
