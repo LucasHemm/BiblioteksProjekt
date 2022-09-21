@@ -238,4 +238,22 @@ public class Database {
         return ID;
     }
 
+    public void createPostalCode(int postalCode, String city) {
+            try {
+                Connection connection = ConnectionConfiguration.getConnection();
+
+                //Saves the users information
+                PreparedStatement statement = connection.prepareStatement("INSERT INTO bibliotek.postnr (postnummer,bynavn)" +
+                        " VALUES(?,?)");
+                statement.setInt(1,postalCode);
+                statement.setString(2,city);
+
+                int result = statement.executeUpdate();
+            } catch(SQLException e)
+            {
+                System.out.println("Name has already been registered");
+//            e.printStackTrace();
+            }
+
+    }
 }

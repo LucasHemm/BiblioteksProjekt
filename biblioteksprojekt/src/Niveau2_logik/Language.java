@@ -41,17 +41,17 @@ public class Language {
         switch (this.language) {
             case "engelsk":
                 System.out.println("English was chosen");
-                options = new String[]{"Create Borrower", "Create Book", "Create Loan", "Search", "Amount borrowed by area", "Show all loans","Change language","Quit"};
+                options = new String[]{"Create Borrower", "Create Book", "Create Loan", "Search", "Amount borrowed by area", "Show all loans","Change language","Create postal code","Quit"};
                 choice = textUi.select("", options, "");
                 break;
             case "dansk":
                 System.out.println("Dansk blev valgt");
-                options = new String[]{"Opret låner", "Opret bog", "opreet udlån", "Søg", "Antal lånte bøger efter område", "Vis alle lån", "Skift sprog","Afslut"};
+                options = new String[]{"Opret låner", "Opret bog", "opreet udlån", "Søg", "Antal lånte bøger efter område", "Vis alle lån", "Skift sprog","Opret postnummer","Afslut"};
                 choice = textUi.select("", options, "");
                 break;
             case "spansk":
                 System.out.println("El español fue elegido");
-                options = new String[]{"Crear prestatario", "Crear libro", "préstamo creado", "Buscar", "Número de libros prestados por área", "Mostrar todos los préstamos","Cambiar idioma", "Salir"};
+                options = new String[]{"Crear prestatario", "Crear libro", "préstamo creado", "Buscar", "Número de libros prestados por área", "Mostrar todos los préstamos","Cambiar idioma","Crear Código postal", "Salir"};
                 choice = textUi.select("", options, "");
                 break;
         }
@@ -208,5 +208,31 @@ public class Language {
 
     protected void showLoans(){
         database.showAllLoans();
+    }
+
+    public void createPostalCode() {
+        int postalCode = 0;
+        String cityName = "";
+        switch (this.language) {
+            case "engelsk":
+                System.out.println("Enter postalcode");
+                postalCode = textUi.getInteger();
+                System.out.println("Enter name of city");
+                cityName = textUi.get();
+                break;
+            case "dansk":
+                System.out.println("Indsæt postnummer");
+                postalCode = textUi.getInteger();
+                System.out.println("Skriv navn på by");
+                cityName = textUi.get();
+                break;
+            case "spansk":
+                System.out.println("Insertar código postal");
+                postalCode = textUi.getInteger();
+                System.out.println("Insertar nombre de la ciudad");
+                cityName = textUi.get();
+                break;
+        }
+        database.createPostalCode(postalCode,cityName);
     }
 }

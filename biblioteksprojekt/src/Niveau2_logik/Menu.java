@@ -35,6 +35,9 @@ public class Menu {
                     language.changeLanguage();
                     break;
                 case 7:
+                    language.createPostalCode();
+                    break;
+                case 8:
                     onOff = false;
                     break;
             }
